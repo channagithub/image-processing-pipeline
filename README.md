@@ -35,5 +35,16 @@ Be sure to cover:
   * moving models to production
   * serving predictions to the client
 
+## Proposed Pipeline
+Here is my proposed pipeline which has flask, kafka, spark, s3 and elasticsearch components. 
+
+![](pipeline_architecture/initial_architecture.jpg)
+
+  * Flask - for RESTful service to collect images from mobile application or any other equivalent source
+  * Kafka - for event driven architecture (distributed)
+  * Spark - distributed data processing modules (distributed)
+  * S3 - for storing augmented images, used by data scientists to train CNN models
+  * Elasticsearch - for storing extracted geo location (also distributed)
+
 ## Recommended Tools
 * [Imagemagick](https://www.imagemagick.org/script/index.php) for command-line image transformation.
