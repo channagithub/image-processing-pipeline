@@ -50,7 +50,7 @@ Here is my proposed pipeline which has flask, kafka, spark, s3 and elasticsearch
 run deploy.sh, like
 ./deploy.sh
 
-# Use sample api  
+## Test api
 curl http://0.0.0.0:8000/is_alive
 
 > expected response
