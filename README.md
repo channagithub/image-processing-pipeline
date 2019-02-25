@@ -46,5 +46,24 @@ Here is my proposed pipeline which has flask, kafka, spark, s3 and elasticsearch
   * S3 - for storing augmented images, used by data scientists to train CNN models
   * Elasticsearch - for storing extracted geo location (also distributed)
 
+## Usage
+run deploy.sh, like
+./deploy.sh
+
+# Use sample api  
+curl http://0.0.0.0:8000/isAlive
+
+> expected response
+> {
+>   "ret_ack": "Channa works on granular data pipeline."
+> }
+
+curl -F "file=@imgs_de/alfalfa/17254133335_e3c5643574_z.jpg" http://0.0.0.0:8000/post_image
+
+> expected response
+> {
+>   "ret_ack": "Success. Got your image. Thank you. <class 'PIL.JpegImagePlugin.JpegImageFile'>"
+> }
+
 ## Recommended Tools
 * [Imagemagick](https://www.imagemagick.org/script/index.php) for command-line image transformation.
