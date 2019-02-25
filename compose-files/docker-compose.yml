@@ -1,24 +1,11 @@
 version: '2'
 services:
-  web:
-    container_name: granular
-    stdin_open: true
-    tty: true
-    build: ./../rest-app/
-    image: granular:latest
-    volumes:
-      - ./../rest-app/:/app
-      - ./../rest-app/app_configs/granular.conf:/etc/supervisor/conf.d/granular.conf
-      - ./../rest-app/app_configs/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
-    command: '/usr/bin/supervisord'
-    ports:
-      - "8000:8000"
-    restart: always
-
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+    networks:
+      - pub_sub_network
 
   kafka:
     image: wurstmeister/kafka
@@ -31,6 +18,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - pub_sub_network
 
   mysql:
     image: mysql
@@ -45,3 +34,26 @@ services:
       MYSQL_DATABASE: "localdb"
     volumes:
       - ./data/kafka-poc/mysql:/var/lib/mysql
+    networks:
+      - pub_sub_network
+
+  web:
+    container_name: granular
+    stdin_open: true
+    tty: true
+    build: ./../rest-app/
+    image: granular:latest
+    volumes:
+      - ./../rest-app/:/app
+      - ./../rest-app/app_configs/granular.conf:/etc/supervisor/conf.d/granular.conf
+      - ./../rest-app/app_configs/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    command: '/usr/bin/supervisord'
+    ports:
+      - "8000:8000"
+    networks:
+      - pub_sub_network
+    restart: always
+    
+networks:
+  pub_sub_network:
+    driver: bridge
