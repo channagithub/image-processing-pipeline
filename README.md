@@ -51,7 +51,7 @@ run deploy.sh, like
 ./deploy.sh
 
 # Use sample api  
-curl http://0.0.0.0:8000/isAlive
+curl http://0.0.0.0:8000/is_alive
 
 > expected response
 > {
