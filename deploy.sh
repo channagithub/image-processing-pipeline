@@ -1,3 +1,4 @@
 #!/bin/bash
 
-docker-compose -f ./compose-files/docker-compose.yml up -d
+docker-compose --file ./compose-files/docker-compose.yml down -v --remove-orphans
+docker-compose --file ./compose-files/docker-compose.yml up -d --build --force-recreate

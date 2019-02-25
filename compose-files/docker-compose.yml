@@ -1,5 +1,20 @@
 version: '2'
 services:
+  web:
+    container_name: granular
+    stdin_open: true
+    tty: true
+    build: ./../rest-app/
+    image: granular:latest
+    volumes:
+      - ./../rest-app/:/app
+      - ./../rest-app/app_configs/granular.conf:/etc/supervisor/conf.d/granular.conf
+      - ./../rest-app/app_configs/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
+    command: '/usr/bin/supervisord'
+    ports:
+      - "8000:8000"
+    restart: always
+
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -30,18 +45,3 @@ services:
       MYSQL_DATABASE: "localdb"
     volumes:
       - ./data/kafka-poc/mysql:/var/lib/mysql
-
-  web:
-    container_name: granular
-    stdin_open: true
-    tty: true
-    build: .
-    image: granular:latest
-    volumes:
-      - ./:/app
-      - ./../rest-app/app_configs/granular.conf:/etc/supervisor/conf.d/granular.conf
-      - ./../rest-app/app_configs/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
-    command: '/usr/bin/supervisord'
-    ports:
-      - "8000:8000"
-    restart: always
